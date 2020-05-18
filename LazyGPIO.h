@@ -19,7 +19,7 @@ class LazyDigiRead
 {
 public:
 	LazyDigiRead();
-	void init(uint8_t pin);
+	void init(uint8_t pin, uint8_t type);
 	bool Read(void);
 	void update(void);
 

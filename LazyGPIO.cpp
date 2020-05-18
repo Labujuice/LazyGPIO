@@ -16,10 +16,19 @@ LazyDigiRead::LazyDigiRead()
 	falling_CallBack = NULL;
 }
 
-void LazyDigiRead::init(uint8_t pin)
+void LazyDigiRead::init(uint8_t pin, uint8_t type)
 {
 	inputPin = pin;
-	pinMode(pin,INPUT);
+
+	if(type == 0x0 || type == 0x1 || type == 0x2)
+	{
+		pinMode(pin,type);
+	}
+	else
+	{
+		pinMode(pin,INPUT);
+	}
+
 }
 
 bool LazyDigiRead::Read(void)
