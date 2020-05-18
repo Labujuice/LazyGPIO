@@ -8,6 +8,10 @@
 #include "LazyGPIO.h"
 
 
+
+//====================================================================================================
+//Class LazyDigiRead
+//====================================================================================================
 LazyDigiRead::LazyDigiRead()
 {
 	state = LOW;
@@ -94,4 +98,54 @@ void LazyDigiRead::setCallBack(GPIOCallBack_e type,void (*callback_function)(voi
 	default:
 		break;
 	}
+}
+
+//====================================================================================================
+//Class LazyDigiWrite
+//====================================================================================================
+LazyDigiWrite::LazyDigiWrite()
+{
+	//Do nothing
+}
+
+void LazyDigiWrite::init(uint8_t pin)
+{
+	outputPin = pin;
+	pinMode(outputPin,OUTPUT);
+}
+
+void LazyDigiWrite::High(void)
+{
+	digitalWrite(outputPin,HIGH);
+}
+
+void LazyDigiWrite::Low(void)
+{
+	digitalWrite(outputPin,LOW);
+}
+
+void LazyDigiWrite::Toggle(void)
+{
+	digitalWrite(outputPin,!digitalRead(outputPin));
+}
+
+
+//====================================================================================================
+//Class LazyAnalogRead
+//====================================================================================================
+LazyAnalogRead::LazyAnalogRead()
+{
+	value = 0;
+}
+
+void LazyAnalogRead::init(uint8_t pin)
+{
+	inputPin = pin;
+	pinMode(inputPin,INPUT);
+}
+
+int LazyAnalogRead::Read(void)
+{
+	value = analogRead(inputPin);
+	return value;
 }
