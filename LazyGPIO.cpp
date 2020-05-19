@@ -18,6 +18,8 @@ LazyDigiRead::LazyDigiRead()
 	toggle_CallBack = NULL;
 	rising_CallBack = NULL;
 	falling_CallBack = NULL;
+	short_CallBack = NULL;
+	long_CallBack = NULL;
 }
 
 void LazyDigiRead::init(uint8_t pin, uint8_t type)
@@ -64,6 +66,27 @@ void LazyDigiRead::update(void)
 			{
 				rising_CallBack();
 			}
+
+			interval = millis() - pressStamp;
+			if(interval >= SHORT_PRESS && interval < LONG_PRESS)
+			{
+				if(short_CallBack != NULL)
+				{
+					short_CallBack();
+				}
+			}
+			else if(interval >= LONG_PRESS)
+			{
+				if(long_CallBack != NULL)
+				{
+					long_CallBack();
+				}
+
+			}
+			else
+			{
+				//do nothing
+			}
 			break;
 
 		case LOW:
@@ -72,6 +95,8 @@ void LazyDigiRead::update(void)
 			{
 				falling_CallBack();
 			}
+
+			pressStamp = millis();
 			break;
 
 		default:
@@ -94,6 +119,12 @@ void LazyDigiRead::setCallBack(GPIOCallBack_e type,void (*callback_function)(voi
 		break;
 	case Falling:
 		falling_CallBack = callback_function;
+		break;
+	case Short:
+		short_CallBack = callback_function;
+		break;
+	case Long:
+		long_CallBack = callback_function;
 		break;
 	default:
 		break;
